@@ -13,6 +13,8 @@ var request = require('request');
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
 
+var parser = require('json-parser');
+
 // create a new express server
 var app = express();
 
@@ -34,7 +36,8 @@ app.get('/process_get', function(req, res)
 		json: true
 	},
 	function (error, response, body) {
-		console.log(body);
+		var responseObject = parser.parse(body);
+		console.log(responseObject.forecasts[0].day.fcst_valid_local);
 	});
 });
 
