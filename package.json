@@ -8,7 +8,8 @@
 	"dependencies": {
 		"express": "4.13.x",
 		"cfenv": "1.0.x",
-		"request": "2.79.0"
+		"request": "2.79.0",
+		"json-parser": "1.1.5"
 	},
 	"repository": {},
 	"engines": {
