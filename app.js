@@ -14,6 +14,7 @@ var request = require('request');
 var cfenv = require('cfenv');
 
 var parser = require('json-parser');
+var fs = require('fs');
 
 // create a new express server
 var app = express();
@@ -37,7 +38,13 @@ app.get('/process_get', function(req, res)
 	},
 	function (error, response, body) {
 		console.log("forecast: " + body.forecasts);
-		res.end(JSON.stringify(body.forecasts));
+		res.setHeader("Content-Type", "text/html");
+		res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
+      				"Latitude: <input type='text' name='latitude' /><br />" + 
+      				"Longitude: <input type='text' name='longitude' /><br />" +
+      				"<input type='submit' text='submit' />" +
+    			"</form>" +
+    			"<p id='blankSpace'>" + JSON.stringify(body.forecasts) + "</p>");
 	});
 });
 
