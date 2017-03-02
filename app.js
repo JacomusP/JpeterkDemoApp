@@ -14,7 +14,6 @@ var request = require('request');
 var cfenv = require('cfenv');
 
 var parser = require('json-parser');
-var fs = require('fs');
 
 // create a new express server
 var app = express();
