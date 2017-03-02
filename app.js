@@ -36,8 +36,8 @@ app.get('/process_get', function(req, res)
 		json: true
 	},
 	function (error, response, body) {
-		var responseObject = parser.parse(body);
-		console.log(responseObject.forecasts[0].day.fcst_valid_local);
+		console.log("forecast: " + body.forecast);
+		res.end(JSON.stringify(body.forecast));
 	});
 });
 
