@@ -36,8 +36,8 @@ app.get('/process_get', function(req, res)
 		json: true
 	},
 	function (error, response, body) {
-		console.log("forecast: " + body.forecast);
-		res.end(JSON.stringify(body.forecast));
+		console.log("forecast: " + body.forecasts);
+		res.end(JSON.stringify(body.forecasts));
 	});
 });
 
