@@ -59,12 +59,19 @@ app.get('/process_get', function(req, res)
 		longitude: req.query.longitude
 	};
 	
-	intervalID = setInterval(function(res) {
-		getWeather(res);
+	intervalID = setInterval(function() {
+		getWeather();
 	}, 10000);
+	// res.setHeader("Content-Type", "text/html");
+	// res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
+ //      		"Latitude: <input type='text' name='latitude' /><br />" + 
+ //      		"Longitude: <input type='text' name='longitude' /><br />" +
+ //      		"<input type='submit' text='submit' />" +
+ //    		"</form>" +
+ //    		"<p id='blankSpace'>" + JSON.stringify(body.forecasts) + "</p>");
 });
 
-function getWeather(res)
+function getWeather()
 {
 	if (timesGetWeatherCalled >= 5)
 	{
@@ -78,13 +85,6 @@ function getWeather(res)
 		},
 		function (error, response, body) {
 			console.log("forecast: " + body.forecasts);
-			res.setHeader("Content-Type", "text/html");
-			res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
-      				"Latitude: <input type='text' name='latitude' /><br />" + 
-      				"Longitude: <input type='text' name='longitude' /><br />" +
-      				"<input type='submit' text='submit' />" +
-    				"</form>" +
-    				"<p id='blankSpace'>" + JSON.stringify(body.forecasts) + "</p>");
 		});
 	}
 	timesGetWeatherCalled++;
