@@ -58,11 +58,11 @@ app.get('/process_get', function(req, res)
 	};
 	
 	setInterval(function() {
-		getWeather();
+		getWeather(res);
 	}, 10000);
 });
 
-function getWeather()
+function getWeather(res)
 {
 	if (timesGetWeatherCalled >= 5)
 	{
