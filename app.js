@@ -32,6 +32,7 @@ deviceClient.connect();
 var app = express();
 
 var timesGetWeatherCalled = 0;
+var intervalID;
 
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
@@ -51,13 +52,14 @@ deviceClient.on("error", function(err) {
 
 app.get('/process_get', function(req, res)
 {
+	timesGetWeatherCalled = 0;
 	// Prepare output in JSON format
 	response = {
 		latitude: req.query.latitude,
 		longitude: req.query.longitude
 	};
 	
-	setInterval(function() {
+	intervalID = setInterval(function(res) {
 		getWeather(res);
 	}, 10000);
 });
@@ -66,7 +68,7 @@ function getWeather(res)
 {
 	if (timesGetWeatherCalled >= 5)
 	{
-		clearInterval();
+		clearInterval(intervalID);
 	}
 	else
 	{
