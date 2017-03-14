@@ -63,16 +63,22 @@ app.get('/process_get', function(req, res)
 {
 	timesGetWeatherCalled = 0;
 	// Prepare output in JSON format
-	response = {
+	weatherResponse = {
 		latitude: req.query.latitude1,
 		longitude: req.query.longitude1
 	};
+	twitterResponse = {
+		lat1: req.query.latitude1,
+		long1: req.query.longitude1,
+		lat2: req.query.latitude2,
+		long2: req.query.longitude2
+	};
 	
 	weatherIntervalID = setInterval(function() {
-		getWeather(response);
+		getWeather();
 	}, 10000);
 	twitterIntervalID = setInterval(function() {
-		getTweets(req.query.latitude1, req.query.longitude1, req.query.latitude2, req.query.longitude2);
+		getTweets();
 	}, 10000);
 	// res.setHeader("Content-Type", "text/html");
 	// res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
@@ -83,7 +89,7 @@ app.get('/process_get', function(req, res)
  //    		"<p id='blankSpace'>" + JSON.stringify(body.forecasts) + "</p>");
 });
 
-function getWeather(response)
+function getWeather()
 {
 	if (timesGetWeatherCalled >= 5)
 	{
@@ -95,7 +101,7 @@ function getWeather(response)
 	}
 	else
 	{
-		var callURL = "https://58a809af-857f-4b07-a8c3-2474229efe45:EwTcQmn8ST@twcservice.mybluemix.net/api/weather/v1/geocode/" + response.latitude + "/" + response.longitude + "/forecast/hourly/48hour.json?units=m&language=en-US";
+		var callURL = "https://58a809af-857f-4b07-a8c3-2474229efe45:EwTcQmn8ST@twcservice.mybluemix.net/api/weather/v1/geocode/" + weatherResponse.latitude + "/" + weatherResponse.longitude + "/forecast/hourly/48hour.json?units=m&language=en-US";
 		request.get(callURL, {
 			json: true
 		},
@@ -107,7 +113,7 @@ function getWeather(response)
 	timesGetWeatherCalled++;
 }
 
-function getTweets(lat1, long1, lat2, long2)
+function getTweets()
 {
 	if (timesGetTweetsCalled >= 5)
 	{
@@ -120,7 +126,7 @@ function getTweets(lat1, long1, lat2, long2)
 	else
 	{
 		var locationString = "";
-		locationString += lat1 + "," + long1 + "," + lat2 + "," + long2;
+		locationString += twitterResponse.lat1 + "," + twitterResponse.long1 + "," + twitterResponse.lat2 + "," + twitterResponse.long2;
 		var stream = twitterClient.stream("statuses/filter", { locations: locationString });
 		stream.on("data", function(event) {
 			console.log(event && event.text);
