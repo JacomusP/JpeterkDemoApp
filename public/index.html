@@ -11,8 +11,10 @@
 
   <body>
     <form action="https://jpeterkdemoapp.mybluemix.net/process_get" method="GET">
-      Latitude: <input type="text" name="latitude" /><br />
-      Longitude: <input type="text" name="longitude" /><br />
+      <label for="lat1">Upper Left Latitude: </label> <input type="text" name="latitude1" id="lat1" />
+      <label for="long1">Upper Left Longitude: </label> <input type="text" name="longitude1" id="long1" /><br />
+      <label for="lat2">Lower Right Latitude: </label> <input type="text" name="latitude2" id="lat2" />
+      <label for="long2">Lower Right Longitude: </label> <input type="text" name="longitude2" id="long2" /><br />
       <input type="submit" text="submit" />
     </form>
     <p id="blankSpace">Hey, Guys!</p>
