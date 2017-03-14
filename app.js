@@ -39,9 +39,7 @@ var twitterClient = new Twitter({
 var app = express();
 
 var timesGetWeatherCalled = 0;
-var timesGetTweetsCalled = 0;
 var weatherIntervalID;
-var twitterIntervalID;
 
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
@@ -63,11 +61,7 @@ app.get('/process_get', function(req, res)
 {
 	timesGetWeatherCalled = 0;
 	// Prepare output in JSON format
-	weatherResponse = {
-		latitude: req.query.latitude1,
-		longitude: req.query.longitude1
-	};
-	twitterResponse = {
+	response = {
 		lat1: req.query.latitude1,
 		long1: req.query.longitude1,
 		lat2: req.query.latitude2,
@@ -77,9 +71,14 @@ app.get('/process_get', function(req, res)
 	weatherIntervalID = setInterval(function() {
 		getWeather();
 	}, 10000);
-	twitterIntervalID = setInterval(function() {
-		getTweets();
-	}, 10000);
+
+	var locationString = "";
+	locationString += response.lat1 + "," + response.long1 + "," + response.lat2 + "," + response.long2;
+	var stream = twitterClient.stream("statuses/filter", { locations: locationString });
+	stream.on("data", function(event) {
+		console.log(event && event.text);
+		deviceClient.publish("status", "json", '{"d": {"text": ' + event.text + '}}');
+	});
 	// res.setHeader("Content-Type", "text/html");
 	// res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
  //      		"Latitude: <input type='text' name='latitude' /><br />" + 
@@ -94,14 +93,11 @@ function getWeather()
 	if (timesGetWeatherCalled >= 5)
 	{
 		clearInterval(weatherIntervalID);
-		if (timesGetWeatherCalled >=5 && timesGetTweetsCalled >= 5)
-		{
-			deviceClient.disconnect();
-		}
+		deviceClient.disconnect();
 	}
 	else
 	{
-		var callURL = "https://58a809af-857f-4b07-a8c3-2474229efe45:EwTcQmn8ST@twcservice.mybluemix.net/api/weather/v1/geocode/" + weatherResponse.latitude + "/" + weatherResponse.longitude + "/forecast/hourly/48hour.json?units=m&language=en-US";
+		var callURL = "https://58a809af-857f-4b07-a8c3-2474229efe45:EwTcQmn8ST@twcservice.mybluemix.net/api/weather/v1/geocode/" + response.lat1 + "/" + response.long1 + "/forecast/hourly/48hour.json?units=m&language=en-US";
 		request.get(callURL, {
 			json: true
 		},
@@ -111,29 +107,6 @@ function getWeather()
 		});
 	}
 	timesGetWeatherCalled++;
-}
-
-function getTweets()
-{
-	if (timesGetTweetsCalled >= 5)
-	{
-		clearInterval(twitterIntervalID);
-		if (timesGetWeatherCalled >=5 && timesGetTweetsCalled >= 5)
-		{
-			deviceClient.disconnect();
-		}
-	}
-	else
-	{
-		var locationString = "";
-		locationString += twitterResponse.lat1 + "," + twitterResponse.long1 + "," + twitterResponse.lat2 + "," + twitterResponse.long2;
-		var stream = twitterClient.stream("statuses/filter", { locations: locationString });
-		stream.on("data", function(event) {
-			console.log(event && event.text);
-			deviceClient.publish("status", "json", '{"d": {"text": ' + event.text + '}}');
-		});
-	}
-	timesGetTweetsCalled++;
 }
 
 // start server on the specified port and binding host
