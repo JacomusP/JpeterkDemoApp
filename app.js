@@ -38,7 +38,7 @@ var twitterClient = new Twitter({
 // create a new express server
 var app = express();
 
-var timesGetWeatherCalled = 0;
+var timesGetWeatherAndTweetsCalled = 0;
 var weatherIntervalID;
 
 // serve the files out of ./public as our main files
@@ -59,7 +59,7 @@ deviceClient.on("error", function(err) {
 
 app.get('/process_get', function(req, res)
 {
-	timesGetWeatherCalled = 0;
+	timesGetWeatherAndTweetsCalled = 0;
 	// Prepare output in JSON format
 	response = {
 		lat1: req.query.latitude1,
@@ -67,18 +67,13 @@ app.get('/process_get', function(req, res)
 		lat2: req.query.latitude2,
 		long2: req.query.longitude2
 	};
-	
-	weatherIntervalID = setInterval(function() {
-		getWeather();
-	}, 10000);
-
 	var locationString = "";
 	locationString += response.lat1 + "," + response.long1 + "," + response.lat2 + "," + response.long2;
-	var stream = twitterClient.stream("statuses/filter", { locations: locationString });
-	stream.on("data", function(event) {
-		console.log(event && event.text);
-		deviceClient.publish("status", "json", '{"d": {"text": ' + event.text + '}}');
-	});
+	
+	intervalID = setInterval(function() {
+		getWeatherAndTweets(locationString);
+	}, 10000);
+
 	// res.setHeader("Content-Type", "text/html");
 	// res.end("<form action='https://jpeterkdemoapp.mybluemix.net/process_get' method='GET'>" + 
  //      		"Latitude: <input type='text' name='latitude' /><br />" + 
@@ -88,11 +83,11 @@ app.get('/process_get', function(req, res)
  //    		"<p id='blankSpace'>" + JSON.stringify(body.forecasts) + "</p>");
 });
 
-function getWeather()
+function getWeatherAndTweets(locationString)
 {
-	if (timesGetWeatherCalled >= 5)
+	if (timesGetWeatherAndTweetsCalled >= 5)
 	{
-		clearInterval(weatherIntervalID);
+		clearInterval(intervalID);
 		deviceClient.disconnect();
 	}
 	else
@@ -105,8 +100,13 @@ function getWeather()
 			console.log("forecast: " + body.forecasts);
 			deviceClient.publish("status", "json", JSON.stringify(body.forecasts));
 		});
+		var stream = twitterClient.stream("statuses/filter", { locations: locationString });
+		stream.on("data", function(event) {
+			console.log(event && event.text);
+			deviceClient.publish("status", "json", '{"d": {"text": ' + event.text + '}}');
+		});
 	}
-	timesGetWeatherCalled++;
+	timesGetWeatherAndTweetsCalled++;
 }
 
 // start server on the specified port and binding host
