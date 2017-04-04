@@ -3,6 +3,6 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: JpeterkDemoApp
-  host: JpeterkDemoApp
+  name: JpeterkWeatherApp
+  host: JpeterkWeatherApp
   disk_quota: 1024M
