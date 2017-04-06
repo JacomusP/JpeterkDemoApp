@@ -18,12 +18,12 @@ var parser = require('json-parser');
 
 var Client = require("ibmiotf");
 var config = {
-    "org": "82nnqq",
-    "id": "MyTweets",
-    "domain": "internetofthings.ibmcloud.com",
-    "type": "Tweets",
-    "auth-method": "token",
-    "auth-token": "yqkd7382hdkd-"
+    "org": "t82anh",
+	"id": "MyGeoTweets",
+	"domain": "internetofthings.ibmcloud.com",
+	"type": "GeoTweets",
+	"auth-method": "token",
+	"auth-token": "F0uO@W!BGM8vHbo0RL"
 };
 var deviceClient = new Client.IotfDevice(config);
 deviceClient.connect();
@@ -92,7 +92,7 @@ function getWeatherAndTweets(locationString)
 	}
 	else
 	{
-		var callURL = "https://58a809af-857f-4b07-a8c3-2474229efe45:EwTcQmn8ST@twcservice.mybluemix.net/api/weather/v1/geocode/" + response.lat1 + "/" + response.long1 + "/forecast/hourly/48hour.json?units=m&language=en-US";
+		var callURL = "https://3024c902-44c2-4a90-a124-2fcf95f7a555:6QF9VUcNWw@twcservice.mybluemix.net/api/weather/v1/geocode/" + response.lat1 + "/" + response.long1 + "/forecast/hourly/48hour.json?units=m&language=en-US";
 		request.get(callURL, {
 			json: true
 		},
