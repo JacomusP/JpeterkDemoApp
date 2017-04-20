@@ -180,9 +180,10 @@ app.get('/process_get', function(req, res)
 	};
 
 	// Perform Twitter Functionality every N milliseconds
-	twitterVarInstance.twitterIntervalID = setInterval(function() {
+	/*twitterVarInstance.twitterIntervalID = setInterval(function() {
 		twitterVarInstance.getTwitter(request, response);
-	}, 10000);
+	}, 10000);*/
+	twitterVarInstance.getTwitter(request, response);
 	
 	//Perform Weather Functionality every N milliseconds
 	weatherVarInstance.weatherIntervalID = setInterval(function() {
