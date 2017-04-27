@@ -27,7 +27,7 @@ var twitterSetup = function(deviceClient)
 		else 
 		{
 			var locationString = "";
-			locationString += response.long1 + "," + response.lat2 + "," + response.long2 + "," + response.lat1;
+			locationString += response.long1 + "," + response.lat1 + "," + response.long2 + "," + response.lat2;
 			
 			// NOTE: tweets are in a stream format
 			console.log("TWITTER!");
