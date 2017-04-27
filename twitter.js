@@ -31,6 +31,7 @@ var twitterSetup = function(deviceClient)
 			
 			// NOTE: tweets are in a stream format
 			console.log("TWITTER!");
+			console.log(locationString);
 			var stream = twitterClient.stream("statuses/filter", { locations: locationString });
 			stream.on('data', function(event) {
 				console.log("TWWWWWWWWIIIIIIIIIIITTTTTTTTTTEEEEEEEERRRRRRRRRR!!!!");
