@@ -20,12 +20,12 @@ var twitterSetup = function(deviceClient)
 	self.getTwitter = function(request, response) 
 	{
 		// Stop Repetition after N iterations
-		/*if (timesGetTwitterCalled > 1)
+		if (timesGetTwitterCalled > 1)
 		{ 
 			clearInterval(self.twitterIntervalID);
-		}*/
-		/*else 
-		{*/
+		}
+		else 
+		{
 			var locationString = "";
 			locationString += response.long1 + "," + response.lat2 + "," + response.long2 + "," + response.lat1;
 			
@@ -41,8 +41,8 @@ var twitterSetup = function(deviceClient)
 			stream.on('error', function(error) {
 				console.log("Error: " + error);
 			});
-		//}
-		//++timesGetTwitterCalled;
+		}
+		++timesGetTwitterCalled;
 	}
 }
 
