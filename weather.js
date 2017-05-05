@@ -26,7 +26,8 @@ var weatherSetup = function(deviceClient) {
 			},
 			function (error, response, body) {
 				console.log("forecast: " + JSON.stringify(body.forecasts[0]));
-				deviceClient.publish("status", "json", JSON.stringify(body.forecasts[0]));
+				console.log("status", "json", JSON.stringify(body.forecasts[0].temp));
+				deviceClient.publish("status","json",'{"d":{"type" : "weather", "temp" : '+body.forecasts[0].temp+',"precip" : '+body.forecasts[0].precip_type+'}}',1);
 			});
 		}
 		++timesGetWeatherCalled;

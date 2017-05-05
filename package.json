@@ -11,7 +11,8 @@
 		"request": "2.79.0",
 		"json-parser": "1.1.5",
 		"ibmiotf": "0.2.31",
-		"twitter": "1.7.0"
+		"twitter": "1.7.0",
+		"watson-developer-cloud": "x.x.x"
 	},
 	"repository": {},
 	"engines": {

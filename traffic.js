@@ -23,7 +23,7 @@ var trafficSetup = function(deviceClient) {
 			locationString += response.lat2 + "," + response.long1 + "," + response.lat1 + "," + response.long2;
 			
 			console.log("TRAFFIC!!!");
-			var trafficURL = "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+locationString+"?key=UK711zqgqMLfjlFqwIO4~DxuuLzf10bzPBAN9tuiIhA~AqjTOBkeWuGZMjUKmlPx2oy0DxMJj4SFqvIAgZDNGC-eCp0Ch4DwO9l6ZXa4TNGe"
+			var trafficURL = "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"+locationString+"?key=AuYVzEN-Wy-0UMikqHd2SdOvKFWunzHF6NMTf3k3sc_2yeL95PecboET7X3QmLPv"
 			request.get(trafficURL, {
 				json: true
 			},
